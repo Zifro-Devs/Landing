@@ -18,7 +18,7 @@ const values = [
   { 
     icon: Users, 
     title: "Comprometidos contigo",
-    description: "No desaparecemos después de entregar. Seguimos contigo, resolviendo dudas y asegurándonos de que todo funcione."
+    description: "Para nosotros el proyecto no termina con la entrega. Estamos contigo para apoyarte, resolver tus dudas y asegurarnos de que todo esté funcionando bien."
   },
 ]
 
@@ -54,7 +54,7 @@ export function About() {
             </span>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 sm:mb-10 leading-tight">
-              Somos tu equipo,
+              <span className="text-primary">Somos tu equipo,</span>
               <span className="gradient-text block">no solo proveedores</span>
             </h2>
           </div>

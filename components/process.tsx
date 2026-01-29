@@ -8,28 +8,28 @@ const steps = [
     number: "01",
     icon: MessageSquare,
     title: "Descubrimiento",
-    description: "Te escuchamos. Entendemos tu visión, tus objetivos y los desafíos de tu negocio.",
+    description: "Entendemos tu idea, tus objetivos y lo que tu proyecto necesita para funcionar.",
     color: "from-blue-500 to-cyan-500",
   },
   {
     number: "02",
     icon: Lightbulb,
     title: "Estrategia",
-    description: "Diseñamos la arquitectura perfecta y planificamos cada fase del desarrollo.",
+    description: "Organizamos la solución y definimos un plan claro para construir tu proyecto paso a paso.",
     color: "from-purple-500 to-pink-500",
   },
   {
     number: "03",
     icon: Code,
     title: "Desarrollo",
-    description: "Construimos tu solución con código limpio, metodologías ágiles y mucho café.",
+    description: "Construimos tu proyecto cuidando cada detalle para que sea estable, claro y fácil de usar.",
     color: "from-orange-500 to-amber-500",
   },
   {
     number: "04",
     icon: Rocket,
     title: "Lanzamiento",
-    description: "Desplegamos, optimizamos y te acompañamos en cada paso del crecimiento.",
+    description: "Ponemos tu proyecto en marcha y seguimos contigo para que crezca y funcione bien en el tiempo.",
     color: "from-green-500 to-emerald-500",
   },
 ]
@@ -77,7 +77,7 @@ export function Process() {
             Nuestro Proceso
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-balance">
-            De la idea al
+            <span className="text-primary">De la idea al</span>
             <span className="gradient-text"> lanzamiento</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground text-pretty">
@@ -108,35 +108,31 @@ export function Process() {
                 >
                   {/* Number Badge */}
                   <div
-                    className={`relative z-10 w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 ${
-                      index <= activeStep
+                    className={`relative z-10 w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 ${index <= activeStep
                         ? "bg-gradient-to-br " + step.color + " text-white shadow-2xl scale-110"
                         : "bg-card border-2 border-border text-muted-foreground"
-                    }`}
+                      }`}
                   >
                     <step.icon className="w-8 h-8" />
                   </div>
 
                   {/* Connector Dot */}
                   <div
-                    className={`absolute top-[4.75rem] left-1/2 -translate-x-1/2 w-4 h-4 rounded-full transition-all duration-500 ${
-                      index <= activeStep ? "bg-secondary scale-125" : "bg-border"
-                    }`}
+                    className={`absolute top-[4.75rem] left-1/2 -translate-x-1/2 w-4 h-4 rounded-full transition-all duration-500 ${index <= activeStep ? "bg-secondary scale-125" : "bg-border"
+                      }`}
                   />
 
                   {/* Content */}
                   <div className="pt-10">
                     <span
-                      className={`text-5xl font-black transition-colors duration-300 ${
-                        index === activeStep ? "text-secondary" : "text-muted/30"
-                      }`}
+                      className={`text-5xl font-black transition-colors duration-300 ${index === activeStep ? "text-secondary" : "text-muted/30"
+                        }`}
                     >
                       {step.number}
                     </span>
                     <h3
-                      className={`text-xl font-bold mt-2 mb-3 transition-colors duration-300 ${
-                        index === activeStep ? "text-foreground" : "text-muted-foreground"
-                      }`}
+                      className={`text-xl font-bold mt-2 mb-3 transition-colors duration-300 ${index === activeStep ? "text-foreground" : "text-muted-foreground"
+                        }`}
                     >
                       {step.title}
                     </h3>
@@ -153,18 +149,16 @@ export function Process() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className={`relative flex gap-4 sm:gap-6 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-card border border-border/50 ${
-                isVisible ? "animate-slide-up" : "opacity-0"
-              } ${index === activeStep ? "border-secondary/50 shadow-lg" : ""}`}
+              className={`relative flex gap-4 sm:gap-6 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-card border border-border/50 ${isVisible ? "animate-slide-up" : "opacity-0"
+                } ${index === activeStep ? "border-secondary/50 shadow-lg" : ""}`}
               style={{ animationDelay: `${index * 0.1}s` }}
               onClick={() => setActiveStep(index)}
             >
               <div
-                className={`w-12 sm:w-14 h-12 sm:h-14 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-all ${
-                  index <= activeStep
+                className={`w-12 sm:w-14 h-12 sm:h-14 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-all ${index <= activeStep
                     ? "bg-gradient-to-br " + step.color + " text-white"
                     : "bg-muted text-muted-foreground"
-                }`}
+                  }`}
               >
                 <step.icon className="w-5 sm:w-6 h-5 sm:h-6" />
               </div>

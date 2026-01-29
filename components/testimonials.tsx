@@ -68,7 +68,7 @@ export function Testimonials() {
             Testimonios
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-balance">
-            Lo que dicen
+            <span className="text-primary-foreground">Lo que dicen</span>
             <span className="text-secondary"> nuestros clientes</span>
           </h2>
         </div>

@@ -7,29 +7,16 @@ const services = [
   {
     title: "Páginas y Aplicaciones Web",
     description:
-      "Creamos tu presencia en internet: desde una página para tu negocio hasta sistemas completos que automatizan tu trabajo.",
+      "Construimos el espacio digital de tu proyecto: desde una página para mostrar lo que haces, hasta herramientas que te ayuden a trabajar mejor cada día.",
   },
   {
-    title: "Apps para Celular",
-    description: "Tu negocio en el bolsillo de tus clientes. Apps que funcionan en iPhone y Android, fáciles de usar.",
+    title: "Apps Móviles",
+    description: "Desarrollamos aplicaciones pensadas para extender tu proyecto al entorno móvil, facilitando que tus usuarios puedan utilizar tus servicios, gestionar procesos o acceder a información desde su celular de manera práctica y ordenada.",
   },
   {
-    title: "Sistemas en la Nube",
-    description: "Que tu información esté segura, accesible desde cualquier lugar, y que tu sistema nunca se caiga.",
-  },
-  {
-    title: "Diseño de Interfaces",
-    description:
-      "Hacemos que tu aplicación sea bonita y fácil de usar. Que tus clientes sepan qué hacer sin necesitar un manual.",
-  },
-  {
-    title: "Seguridad Digital",
-    description: "Protegemos tu negocio y los datos de tus clientes. Tranquilidad para ti y confianza para ellos.",
-  },
-  {
-    title: "Asesoría y Consultoría",
-    description: "¿No sabes por dónde empezar? Te ayudamos a entender qué necesitas y cómo lograrlo paso a paso.",
-  },
+    title: "Automatización de Procesos",
+    description: "Diseñamos soluciones que transforman procesos manuales en sistemas digitales que facilitan el trabajo, reducen reprocesos y permiten que la información esté siempre organizada y disponible.",
+  }
 ]
 
 export function Services() {
@@ -68,18 +55,18 @@ export function Services() {
               Servicios
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              ¿Qué podemos
+              <span className="text-primary">¿Qué podemos</span>
               <span className="gradient-text block">hacer por ti?</span>
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground text-pretty max-w-md">
               No importa si tienes una idea clara o apenas estás explorando. Estamos aquí para escucharte y encontrar la
               mejor solución juntos.
             </p>
-            
+
             {/* Decorative element */}
             <div className="hidden lg:flex items-center gap-4 mt-12">
               <div className="w-16 h-[2px] bg-primary"></div>
-              <span className="text-sm text-muted-foreground">6 servicios especializados</span>
+              <span className="text-sm text-muted-foreground">3 servicios especializados</span>
             </div>
           </div>
 
@@ -96,25 +83,22 @@ export function Services() {
                     className="w-full py-5 sm:py-8 flex items-center gap-3 sm:gap-6 text-left group"
                   >
                     {/* Number */}
-                    <span className={`text-3xl sm:text-5xl md:text-6xl font-bold transition-colors duration-300 min-w-[2.5rem] sm:min-w-[4rem] ${
-                      activeIndex === index ? "text-secondary" : "text-muted-foreground/30"
-                    }`}>
+                    <span className={`text-3xl sm:text-5xl md:text-6xl font-bold transition-colors duration-300 min-w-[2.5rem] sm:min-w-[4rem] ${activeIndex === index ? "text-secondary" : "text-muted-foreground/30"
+                      }`}>
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    
+
                     {/* Title */}
-                    <span className={`flex-1 text-base sm:text-xl md:text-2xl font-semibold transition-colors duration-300 leading-tight ${
-                      activeIndex === index ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
-                    }`}>
+                    <span className={`flex-1 text-base sm:text-xl md:text-2xl font-semibold transition-colors duration-300 leading-tight ${activeIndex === index ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                      }`}>
                       {service.title}
                     </span>
-                    
+
                     {/* Toggle Icon */}
-                    <span className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
-                      activeIndex === index 
-                        ? "bg-secondary text-secondary-foreground" 
-                        : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
-                    }`}>
+                    <span className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0 ${activeIndex === index
+                      ? "bg-secondary text-secondary-foreground"
+                      : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+                      }`}>
                       {activeIndex === index ? (
                         <Minus className="w-4 h-4 sm:w-6 sm:h-6" />
                       ) : (
@@ -122,11 +106,10 @@ export function Services() {
                       )}
                     </span>
                   </button>
-                  
+
                   {/* Expandable Description */}
-                  <div className={`grid transition-all duration-500 ease-out ${
-                    activeIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                  }`}>
+                  <div className={`grid transition-all duration-500 ease-out ${activeIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}>
                     <div className="overflow-hidden">
                       <p className="pl-12 sm:pl-20 md:pl-24 pb-5 sm:pb-8 text-sm sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
                         {service.description}

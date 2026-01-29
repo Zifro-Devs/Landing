@@ -66,7 +66,7 @@ export function Hero() {
           {/* Left Column - Content */}
           <div className={`${isVisible ? "animate-slide-up" : "opacity-0"}`}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight mb-6 sm:mb-8">
-              <span className="block text-foreground">Transformamos</span>
+              <span className="block text-primary">Transformamos</span>
               <span className="block gradient-text">tus ideas en</span>
               <span className="block text-foreground">
                 <span className="text-secondary">realidad digital</span>
@@ -74,9 +74,7 @@ export function Hero() {
             </h1>
 
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mb-8 sm:mb-10 leading-relaxed">
-              Somos <span className="text-foreground font-semibold">Zifro</span>, un equipo colombiano que crea páginas
-              web, aplicaciones y sistemas. Te acompañamos desde la idea hasta el lanzamiento, explicándote todo en
-              palabras simples.
+              Las ideas nacen en la mente, pero los proyectos nacen cuando se construyen. En <span className="text-foreground font-semibold">Zifro</span> trabajamos contigo para convertir tu visión en una solución digital construida con criterio, orden y atención a cada detalle.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4">

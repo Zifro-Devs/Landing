@@ -34,9 +34,37 @@ export function Contact() {
     return () => observer.disconnect()
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
+    setIsSubmitting(true)
+    
+    try {
+      const form = e.target as HTMLFormElement
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      
+      if (response.ok) {
+        setSubmitStatus('success')
+        setFormData({ name: "", email: "", company: "", message: "" })
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      setSubmitStatus('error')
+    }
+    
+    setIsSubmitting(false)
+    
+    // Reset status after 5 seconds
+    setTimeout(() => setSubmitStatus('idle'), 5000)
   }
 
   return (
@@ -50,7 +78,7 @@ export function Contact() {
             </span>
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-balance">
-              Hagamos realidad
+              <span className="text-primary">Hagamos realidad</span>
               <span className="gradient-text"> tu proyecto</span>
             </h2>
 
@@ -126,7 +154,12 @@ export function Contact() {
                 Te respondemos en menos de 24 horas
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <form 
+                onSubmit={handleSubmit} 
+                action="https://formspree.io/f/xgoyzkyq" 
+                method="POST"
+                className="space-y-4 sm:space-y-6"
+              >
                 <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
                   <div>
                     <label htmlFor="name" className="text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2 block">
@@ -134,6 +167,7 @@ export function Contact() {
                     </label>
                     <Input
                       id="name"
+                      name="name"
                       placeholder="Tu nombre"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -147,6 +181,7 @@ export function Contact() {
                     </label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       placeholder="tu@email.com"
                       value={formData.email}
@@ -163,6 +198,7 @@ export function Contact() {
                   </label>
                   <Input
                     id="company"
+                    name="company"
                     placeholder="Nombre de tu empresa"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
@@ -176,6 +212,7 @@ export function Contact() {
                   </label>
                   <Textarea
                     id="message"
+                    name="message"
                     placeholder="Cuéntanos sobre tu idea, objetivos y cualquier detalle que consideres importante..."
                     rows={4}
                     value={formData.message}
@@ -188,11 +225,37 @@ export function Contact() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12 sm:h-14 text-sm sm:text-base group"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold h-12 sm:h-14 text-sm sm:text-base group disabled:opacity-50"
                 >
-                  Enviar mensaje
-                  <Send className="ml-2 h-4 sm:h-5 w-4 sm:w-5 transition-transform group-hover:translate-x-1" />
+                  {isSubmitting ? (
+                    "Enviando..."
+                  ) : submitStatus === 'success' ? (
+                    "¡Mensaje enviado!"
+                  ) : (
+                    <>
+                      Enviar mensaje
+                      <Send className="ml-2 h-4 sm:h-5 w-4 sm:w-5 transition-transform group-hover:translate-x-1" />
+                    </>
+                  )}
                 </Button>
+
+                {/* Status Messages */}
+                {submitStatus === 'success' && (
+                  <div className="text-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-green-800 text-sm">
+                      ¡Gracias! Tu mensaje ha sido enviado. Te responderemos pronto.
+                    </p>
+                  </div>
+                )}
+                
+                {submitStatus === 'error' && (
+                  <div className="text-center p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-red-800 text-sm">
+                      Hubo un error al enviar el mensaje. Por favor intenta de nuevo.
+                    </p>
+                  </div>
+                )}
               </form>
 
               {/* Quick Link */}

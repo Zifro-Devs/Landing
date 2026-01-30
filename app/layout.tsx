@@ -17,9 +17,9 @@ export const metadata: Metadata = {
   keywords: ["desarrollo de software", "aplicaciones web", "apps móviles", "tecnología", "innovación", "Zifro"],
   authors: [{ name: "Zifro" }],
   icons: {
-    icon: "/logo.icon.png",
-    shortcut: "/logo.icon.png",
-    apple: "/logo.icon.png",
+    icon: "/logo.ico",
+    shortcut: "/logo.ico",
+    apple: "/logo.ico",
   },
   openGraph: {
     title: "Zifro | Ingenio que fluye",

@@ -15,7 +15,7 @@ const services = [
   },
   {
     title: "Automatización de Procesos",
-    description: "Diseñamos soluciones que transforman procesos manuales en sistemas digitales que facilitan el trabajo, reducen reprocesos y permiten que la información esté siempre organizada y disponible.",
+    description: "Diseñamos soluciones que transforman procesos manuales y repetitivos en sistemas digitales que facilitan el trabajo, reducen reprocesos y permiten que la información esté siempre organizada y disponible.",
   }
 ]
 
@@ -23,6 +23,7 @@ export function Services() {
   const [isVisible, setIsVisible] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -43,9 +44,21 @@ export function Services() {
     return () => observer.disconnect()
   }, [])
 
-  // Auto-rotation effect
+  // Check if screen is desktop size
   useEffect(() => {
-    if (!isVisible || isPaused) return
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024) // lg breakpoint
+    }
+    
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+    
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
+
+  // Auto-rotation effect - ONLY for desktop
+  useEffect(() => {
+    if (!isVisible || isPaused || !isDesktop) return
 
     intervalRef.current = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % services.length)
@@ -56,7 +69,7 @@ export function Services() {
         clearInterval(intervalRef.current)
       }
     }
-  }, [isVisible, isPaused])
+  }, [isVisible, isPaused, isDesktop])
 
   // Cleanup interval on unmount
   useEffect(() => {
@@ -68,18 +81,27 @@ export function Services() {
   }, [])
 
   const handleServiceClick = (index: number) => {
-    setActiveIndex(index)
-    // Pause auto-rotation for a moment when user clicks
-    setIsPaused(true)
-    setTimeout(() => setIsPaused(false), 8000) // Resume after 8 seconds
+    if (isDesktop) {
+      setActiveIndex(index)
+      // Pause auto-rotation for a moment when user clicks on desktop
+      setIsPaused(true)
+      setTimeout(() => setIsPaused(false), 8000) // Resume after 8 seconds
+    } else {
+      // Mobile behavior: toggle open/close
+      setActiveIndex(activeIndex === index ? -1 : index)
+    }
   }
 
   const handleMouseEnter = () => {
-    setIsPaused(true)
+    if (isDesktop) {
+      setIsPaused(true)
+    }
   }
 
   const handleMouseLeave = () => {
-    setIsPaused(false)
+    if (isDesktop) {
+      setIsPaused(false)
+    }
   }
 
   return (
@@ -166,20 +188,22 @@ export function Services() {
               ))}
             </div>
 
-            {/* Progress Indicators */}
-            <div className="flex justify-center gap-2 mt-8">
-              {services.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleServiceClick(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    activeIndex === index
-                      ? "bg-secondary w-8"
-                      : "bg-muted-foreground/30 w-2 hover:bg-muted-foreground/50"
-                  }`}
-                />
-              ))}
-            </div>
+            {/* Progress Indicators - Only show on desktop */}
+            {isDesktop && (
+              <div className="flex justify-center gap-2 mt-8">
+                {services.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleServiceClick(index)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      activeIndex === index
+                        ? "bg-secondary w-8"
+                        : "bg-muted-foreground/30 w-2 hover:bg-muted-foreground/50"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

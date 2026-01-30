@@ -1,13 +1,7 @@
 "use client"
 
-import { Heart, Users, MapPin } from "lucide-react"
+import { Heart, Users } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
-
-const stats = [
-  { label: "Proyectos", value: "50+" },
-  { label: "Satisfacción", value: "98%" },
-  { label: "Años", value: "5+" },
-]
 
 const values = [
   { 
@@ -109,46 +103,11 @@ export function About() {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className={`${isVisible ? "animate-slide-up" : "opacity-0"}`} style={{ animationDelay: "0.3s" }}>
-          {/* Mobile: Grid of cards */}
-          <div className="sm:hidden grid grid-cols-3 gap-3 mb-8">
-            {stats.map((stat, i) => (
-              <div key={i} className="bg-card border border-border rounded-xl p-4 text-center">
-                <p className="text-2xl font-bold text-primary mb-1">{stat.value}</p>
-                <p className="text-[10px] text-muted-foreground uppercase tracking-wide">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-          
-          {/* Desktop: Band style */}
-          <div className="hidden sm:block border-y border-border py-14">
-            <div className="max-w-4xl mx-auto">
-              <div className="flex flex-row items-center justify-center gap-20 md:gap-32">
-                {stats.map((stat, i) => (
-                  <div key={i} className="text-center">
-                    <p className="text-6xl md:text-7xl font-bold text-primary mb-2">{stat.value}</p>
-                    <p className="text-base text-muted-foreground uppercase tracking-widest">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          
-          {/* Colombia badge - Mobile only */}
-          <div className="sm:hidden flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
-              <MapPin className="w-4 h-4 text-secondary" />
-              <span className="text-sm text-foreground font-medium">Hecho en Colombia</span>
-            </div>
-          </div>
-          
-          {/* Philosophy line */}
-          <div className="text-center mt-6 sm:mt-14">
-            <p className="text-muted-foreground italic text-sm sm:text-lg px-4">
-              "Menos es más. Elegancia y movimiento." <span className="text-foreground not-italic font-medium">— Nuestra filosofía</span>
-            </p>
-          </div>
+        {/* Philosophy line */}
+        <div className={`text-center ${isVisible ? "animate-slide-up" : "opacity-0"}`} style={{ animationDelay: "0.3s" }}>
+          <p className="text-muted-foreground italic text-sm sm:text-lg px-4">
+            "Menos es más. Elegancia y movimiento." <span className="text-foreground not-italic font-medium">— Nuestra filosofía</span>
+          </p>
         </div>
       </div>
     </section>

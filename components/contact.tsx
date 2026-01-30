@@ -4,14 +4,14 @@ import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Send, ArrowUpRight, Clock } from "lucide-react"
+import { Mail, MapPin, Send, ArrowUpRight, Phone } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 
 export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    company: "",
+    phone: "",
     message: "",
   })
   const [isVisible, setIsVisible] = useState(false)
@@ -37,10 +37,20 @@ export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
+  // Handle phone number input - only allow numbers, spaces, +, -, (, )
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    // Allow only numbers and common phone formatting characters
+    const phoneRegex = /^[0-9+\-\s()]*$/
+    if (phoneRegex.test(value)) {
+      setFormData({ ...formData, phone: value })
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
+
     try {
       const form = e.target as HTMLFormElement
       const response = await fetch(form.action, {
@@ -50,19 +60,19 @@ export function Contact() {
           'Accept': 'application/json'
         }
       })
-      
+
       if (response.ok) {
         setSubmitStatus('success')
-        setFormData({ name: "", email: "", company: "", message: "" })
+        setFormData({ name: "", email: "", phone: "", message: "" })
       } else {
         setSubmitStatus('error')
       }
     } catch (error) {
       setSubmitStatus('error')
     }
-    
+
     setIsSubmitting(false)
-    
+
     // Reset status after 5 seconds
     setTimeout(() => setSubmitStatus('idle'), 5000)
   }
@@ -89,6 +99,7 @@ export function Contact() {
 
             {/* Contact Info Cards */}
             <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-10">
+              {/* Email - Primera */}
               <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-card border border-border hover:border-primary/30 transition-colors">
                 <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <Mail className="w-4 sm:w-5 h-4 sm:h-5 text-primary" />
@@ -104,43 +115,30 @@ export function Contact() {
                 </div>
               </div>
 
+              {/* Celular - Segunda */}
               <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-card border border-border hover:border-primary/30 transition-colors">
                 <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-4 sm:w-5 h-4 sm:h-5 text-secondary" />
+                  <Phone className="w-4 sm:w-5 h-4 sm:h-5 text-secondary" />
+                </div>
+                <div>
+                  <p className="text-xs sm:text-sm text-muted-foreground">Celular de contacto</p>
+                  <a
+                    href="tel:+573001234567"
+                    className="font-semibold text-sm sm:text-base hover:text-secondary transition-colors"
+                  >
+                    +57 300 123 4567
+                  </a>
+                </div>
+              </div>
+
+              {/* Ubicación - Tercera */}
+              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-card border border-border hover:border-primary/30 transition-colors">
+                <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-4 sm:w-5 h-4 sm:h-5 text-primary" />
                 </div>
                 <div>
                   <p className="text-xs sm:text-sm text-muted-foreground">Ubicación</p>
                   <p className="font-semibold text-sm sm:text-base">Colombia</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-card border border-border hover:border-primary/30 transition-colors">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-4 sm:w-5 h-4 sm:h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Tiempo de respuesta</p>
-                  <p className="font-semibold text-sm sm:text-base">Menos de 24 horas</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Social Proof */}
-            <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-card border border-border">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="flex -space-x-2 sm:-space-x-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className="w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-primary border-2 border-background flex items-center justify-center text-xs font-bold text-primary-foreground"
-                    >
-                      {String.fromCharCode(64 + i)}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <p className="font-semibold text-sm sm:text-base">+50 proyectos exitosos</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Clientes satisfechos</p>
                 </div>
               </div>
             </div>
@@ -154,9 +152,9 @@ export function Contact() {
                 Te respondemos en menos de 24 horas
               </p>
 
-              <form 
-                onSubmit={handleSubmit} 
-                action="https://formspree.io/f/xgoyzkyq" 
+              <form
+                onSubmit={handleSubmit}
+                action="https://formspree.io/f/xgoyzkyq"
                 method="POST"
                 className="space-y-4 sm:space-y-6"
               >
@@ -193,15 +191,16 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="company" className="text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2 block">
-                    Empresa <span className="text-muted-foreground font-normal">(opcional)</span>
+                  <label htmlFor="phone" className="text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2 block">
+                    Número de Contacto <span className="text-muted-foreground font-normal">(opcional)</span>
                   </label>
                   <Input
-                    id="company"
-                    name="company"
-                    placeholder="Nombre de tu empresa"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="+57 300 123 4567"
+                    value={formData.phone}
+                    onChange={handlePhoneChange}
                     className="bg-muted/50 border-border focus:border-primary h-11 sm:h-12 text-sm sm:text-base"
                   />
                 </div>
@@ -248,7 +247,7 @@ export function Contact() {
                     </p>
                   </div>
                 )}
-                
+
                 {submitStatus === 'error' && (
                   <div className="text-center p-3 bg-red-50 border border-red-200 rounded-lg">
                     <p className="text-red-800 text-sm">

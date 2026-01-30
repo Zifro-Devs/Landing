@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Play, MessageCircle } from "lucide-react"
+import { ArrowRight, MessageCircle } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
 
 const messages = [
@@ -77,45 +77,18 @@ export function Hero() {
               Las ideas nacen en la mente, pero los proyectos nacen cuando se construyen. En <span className="text-foreground font-semibold">Zifro</span> trabajamos contigo para convertir tu visión en una solución digital construida con criterio, orden y atención a cada detalle.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4">
+            <div className="flex justify-center sm:justify-start">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-6 sm:py-7 text-sm sm:text-base group w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-6 sm:py-7 text-sm sm:text-base group w-full sm:w-auto max-w-sm"
               >
                 <span className="flex items-center justify-center">
                   Cuéntanos tu idea
                   <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
                 </span>
               </Button>
-
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-border hover:border-primary hover:bg-primary/5 font-semibold px-6 sm:px-8 py-6 sm:py-7 text-sm sm:text-base group bg-transparent w-full sm:w-auto"
-              >
-                <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-secondary" />
-                Ver proyectos
-              </Button>
             </div>
 
-            <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-border/50">
-              <div className="flex items-center justify-between sm:justify-start gap-4 sm:gap-8">
-                <div className="text-center">
-                  <p className="text-2xl sm:text-3xl font-bold text-primary">50+</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Proyectos</p>
-                </div>
-                <div className="w-px h-10 sm:h-12 bg-border" />
-                <div className="text-center">
-                  <p className="text-2xl sm:text-3xl font-bold text-secondary">98%</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Satisfacción</p>
-                </div>
-                <div className="w-px h-10 sm:h-12 bg-border" />
-                <div className="text-center">
-                  <p className="text-2xl sm:text-3xl font-bold text-primary">5+</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Años</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Right Column - Chat */}

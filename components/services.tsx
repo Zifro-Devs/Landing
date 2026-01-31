@@ -21,11 +21,8 @@ const services = [
 
 export function Services() {
   const [isVisible, setIsVisible] = useState(false)
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-  const [isPaused, setIsPaused] = useState(false)
-  const [isDesktop, setIsDesktop] = useState(false)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -44,64 +41,8 @@ export function Services() {
     return () => observer.disconnect()
   }, [])
 
-  // Check if screen is desktop size
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 1024) // lg breakpoint
-    }
-    
-    checkScreenSize()
-    window.addEventListener('resize', checkScreenSize)
-    
-    return () => window.removeEventListener('resize', checkScreenSize)
-  }, [])
-
-  // Auto-rotation effect - ONLY for desktop
-  useEffect(() => {
-    if (!isVisible || isPaused || !isDesktop) return
-
-    intervalRef.current = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % services.length)
-    }, 4000) // Change every 4 seconds
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-      }
-    }
-  }, [isVisible, isPaused, isDesktop])
-
-  // Cleanup interval on unmount
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-      }
-    }
-  }, [])
-
-  const handleServiceClick = (index: number) => {
-    if (isDesktop) {
-      setActiveIndex(index)
-      // Pause auto-rotation for a moment when user clicks on desktop
-      setIsPaused(true)
-      setTimeout(() => setIsPaused(false), 8000) // Resume after 8 seconds
-    } else {
-      // Mobile behavior: toggle open/close
-      setActiveIndex(activeIndex === index ? -1 : index)
-    }
-  }
-
-  const handleMouseEnter = () => {
-    if (isDesktop) {
-      setIsPaused(true)
-    }
-  }
-
-  const handleMouseLeave = () => {
-    if (isDesktop) {
-      setIsPaused(false)
-    }
+  const toggleService = (index: number) => {
+    setActiveIndex(activeIndex === index ? null : index)
   }
 
   return (
@@ -130,12 +71,7 @@ export function Services() {
           </div>
 
           {/* Right Column - Accordion Services */}
-          <div 
-            className={`${isVisible ? "animate-slide-up" : "opacity-0"}`} 
-            style={{ animationDelay: "0.2s" }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
+          <div className={`${isVisible ? "animate-slide-up" : "opacity-0"}`} style={{ animationDelay: "0.2s" }}>
             <div className="space-y-0">
               {services.map((service, index) => (
                 <div
@@ -143,29 +79,26 @@ export function Services() {
                   className="border-b border-border last:border-b-0"
                 >
                   <button
-                    onClick={() => handleServiceClick(index)}
+                    onClick={() => toggleService(index)}
                     className="w-full py-5 sm:py-8 flex items-center gap-3 sm:gap-6 text-left group"
                   >
                     {/* Number */}
-                    <span className={`text-3xl sm:text-5xl md:text-6xl font-bold transition-colors duration-300 min-w-[2.5rem] sm:min-w-[4rem] ${
-                      activeIndex === index ? "text-secondary" : "text-muted-foreground/30"
-                    }`}>
+                    <span className={`text-3xl sm:text-5xl md:text-6xl font-bold transition-colors duration-300 min-w-[2.5rem] sm:min-w-[4rem] ${activeIndex === index ? "text-secondary" : "text-muted-foreground/30"
+                      }`}>
                       {String(index + 1).padStart(2, "0")}
                     </span>
 
                     {/* Title */}
-                    <span className={`flex-1 text-base sm:text-xl md:text-2xl font-semibold transition-colors duration-300 leading-tight ${
-                      activeIndex === index ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
-                    }`}>
+                    <span className={`flex-1 text-base sm:text-xl md:text-2xl font-semibold transition-colors duration-300 leading-tight ${activeIndex === index ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                      }`}>
                       {service.title}
                     </span>
 
                     {/* Toggle Icon */}
-                    <span className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
-                      activeIndex === index
+                    <span className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0 ${activeIndex === index
                         ? "bg-secondary text-secondary-foreground"
                         : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
-                    }`}>
+                      }`}>
                       {activeIndex === index ? (
                         <Minus className="w-4 h-4 sm:w-6 sm:h-6" />
                       ) : (
@@ -175,9 +108,8 @@ export function Services() {
                   </button>
 
                   {/* Expandable Description */}
-                  <div className={`grid transition-all duration-500 ease-out ${
-                    activeIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                  }`}>
+                  <div className={`grid transition-all duration-500 ease-out ${activeIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}>
                     <div className="overflow-hidden">
                       <p className="pl-12 sm:pl-20 md:pl-24 pb-5 sm:pb-8 text-sm sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
                         {service.description}
@@ -187,23 +119,6 @@ export function Services() {
                 </div>
               ))}
             </div>
-
-            {/* Progress Indicators - Only show on desktop */}
-            {isDesktop && (
-              <div className="flex justify-center gap-2 mt-8">
-                {services.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleServiceClick(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      activeIndex === index
-                        ? "bg-secondary w-8"
-                        : "bg-muted-foreground/30 w-2 hover:bg-muted-foreground/50"
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>
